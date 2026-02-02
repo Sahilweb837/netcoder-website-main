@@ -216,7 +216,7 @@ const headers = document.querySelectorAll(".accordion-header");
     }
 
 
-    // CHATBOT NHI DOST  HU  AAPKA 
+    // CHATBOT  
 
 
 // Netcoder.in Data Extraction Helper
