@@ -140,7 +140,7 @@ if (isset($_GET['slug'])) {
     <header class="header">
         <nav class="nav container">
             <div class="nav-data">
-                <a href="index.php" class="nav-logo">
+                <a href="index.html" class="nav-logo">
                     <img src="images/logo.png" alt="Netcoder Technology Logo">
                 </a>
 
@@ -156,7 +156,7 @@ if (isset($_GET['slug'])) {
 
             <div class="nav-menu" id="nav-menu">
                 <ul class="nav-list container">
-                    <li><a href="index.php" class="nav-link">Home</a></li>
+                    <li><a href="index.html" class="nav-link">Home</a></li>
                     <li><a href="about.html" class="nav-link">About</a></li>
                     <li class="dropdown-item">
                         <div class="nav-link dropdown-button">
@@ -280,7 +280,7 @@ if (isset($_GET['slug'])) {
             <div class="foot-links">
                 <ul>
                     <li><h5>Quick Links</h5></li>
-                    <li><a href="index.php">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="gallery.html">Gallery</a></li>
                     <li><a href="contact.html">Contact</a></li>
@@ -307,7 +307,7 @@ if (isset($_GET['slug'])) {
         </div>
         <div class="copyright">
             <div class="container">
-                <p>Copyright &copy;2025 All rights reserved by &hearts; <a href="index.php">Netcoder Technology</a></p>
+                <p>Copyright &copy;2025 All rights reserved by &hearts; <a href="index.html">Netcoder Technology</a></p>
                 <div class="social-icons">
                     <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
                     <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>

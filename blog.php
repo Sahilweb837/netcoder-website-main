@@ -126,7 +126,7 @@ if ($result) {
     <header class="header">
         <nav class="nav container">
             <div class="nav-data">
-                <a href="index.php" class="nav-logo">
+                <a href="index.html" class="nav-logo">
                     <img src="images/logo.png" alt="Netcoder Technology Logo">
                 </a>
 
@@ -152,7 +152,7 @@ if ($result) {
             <div class="nav-menu" id="nav-menu">
                 <ul class="nav-list container">
                     <li>
-                        <a href="index.php" class="nav-link">Home</a>
+                        <a href="index.html" class="nav-link">Home</a>
                     </li>
                     <li>
                         <a href="about.html" class="nav-link">About</a>
@@ -408,7 +408,7 @@ if ($result) {
                     <li>
                         <h5>Quick Links</h5>
                     </li>
-                    <li><a href="index.php">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="gallery.html">Gallery</a></li>
                     <li><a href="contact.html">Contact</a></li>
@@ -461,7 +461,7 @@ if ($result) {
         <div class="copyright">
             <div class="container">
                 <p>Copyright &copy;2025 All rights reserved by &hearts; <a
-                        href="index.php">Netcoder Technology</a></p>
+                        href="index.html">Netcoder Technology</a></p>
                 <div class="social-icons">
                     <a href="https://www.facebook.com/netcodertechnology/">
                         <svg width="20" height="20" viewBox="0 0 64 64"

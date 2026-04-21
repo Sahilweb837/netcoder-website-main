@@ -125,7 +125,7 @@ function shiftbox() {
   let address = document.querySelector(".book-demo #address").value;
   let date = document.querySelector(".book-demo #date").value;
 
-  emailjs.send("service_xukw6z4", "template_z5b32h5", {
+  emailjs.send("service_fall03r", "template_zm1kfng", {
     name,
     number,
     mail,
