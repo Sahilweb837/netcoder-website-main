@@ -1127,7 +1127,6 @@ item.addEventListener("click",activateTab); // mobile tap
 
 
         // milestone cards
-        
 document.addEventListener("DOMContentLoaded", () => {
 
     const milestones = document.querySelectorAll(".milestone-container");
@@ -1192,6 +1191,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
 // call advisor function
 function callAdvisor() {
     if (confirm("Call Advisor now?")) {
