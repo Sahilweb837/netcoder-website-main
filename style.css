@@ -37,7 +37,39 @@ strong {
     padding: 0;
     margin: 0;
 }
+.mentorship-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  width: 80%;
+  margin: auto;
+}
 
+/* default (desktop) */
+.course-btn {
+  flex: 1 1 auto;
+  text-align: center;
+  padding: 10px;
+  background: var(--first-color);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 200;
+  transition: 0.3s;
+}
+
+.course-btn:hover {
+  background: white;
+  color: var(--text-color);
+}
+
+
+
+@media (max-width: 576px) {
+  .course-btn {
+    flex: 1 1 100%;
+  }
+}
 body {
     font-family: var(--body-font);
     font-size: var(--normal-font-size);
@@ -206,194 +238,405 @@ input:focus {
 }
 
 /* HEADER */
-
-.main-nav{
-    background:var(--body-color);
-    padding:15px 100px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    a{
-        color: var(--text-color);
-    }
-    
+.side-toggle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor:pointer;
+  font-weight:500;
 }
-.main-nav .color-btn{
+
+.course-campus,
+.course-online {
+  display: none;
+}
+/* ----------HEADER NAVBAR---------- */
+.main-nav{
+  background:#ffffff;
+  padding:15px 80px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  a{
+    color: var(--text-color);
+  }
+  .color-btn{
     color: var(--body-color);
     &:hover{
         color: var(--first-color);
     }
-}
-.brand-logo img{
-    height:50px;
+  }
 }
 
+/* logo */
+.brand-logo img{
+  height:50px;
+}
+
+
+/* ----------
+   DESKTOP MENU WRAPPER
+---------- */
 .menu-wrapper{
-    display:flex;
-    gap:40px;
-    align-items:center;
+  display:flex;
+  gap:40px;
+  align-items:center;
 }
 
 .menu-item{
-    position:relative;
+  position:relative;
 }
 
+/* menu text + icon */
 .menu-link{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    font-weight:500;
-    cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  cursor:pointer;
+  font-weight:500;
+  transition:color 0.3s ease;
 }
 
+/* hover effect */
+.menu-link:hover{
+  color:var(--first-color);
+}
+
+
+/* ----------ICON ARROW (used in both desktop + mobile)----------*/
 .icon-arrow{
-    transition:0.3s;
-    font-size:10px;
+  display:inline-block;
+  width:6px;
+  height:6px;
+  border-right:2px solid #000;
+  border-bottom:2px solid #000;
+  transform:rotate(45deg);
+  transition:0.3s ease;
+  margin-left:auto;
 }
 
-.menu-item.active .icon-arrow{
-    transform:rotate(180deg);
+/* rotate arrow when active */
+.menu-item:hover .icon-arrow,
+.side-item.active .icon-arrow{
+  transform:rotate(-135deg);
 }
 
+
+/*----------MEGA MENU (DESKTOP DROPDOWN)---------- */
 .mega-box{
-    position:absolute;
-    top:70px;
-    left:-150px;
-    width:790px;
-    background:var(--body-color);
-    border-radius:30px;
-    padding:40px;
-    display:none;
-    z-index: 9999;
+  position:absolute;
+  top:200%;
+  left:-150px;
+  width:900px;
+
+  background:#fff;
+  border-radius:15px;
+  box-shadow:1px 1px 10px rgba(0,0,0,0.1);
+  padding:30px;
+  /* hidden state */
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(15px);
+  transition:0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index:999;
 }
 
-.menu-item.active .mega-box{
-    display:flex;
+/* hover trigger only on desktop */
+@media(min-width:768px){
+  .menu-item:hover .mega-box{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
+  }
 }
 
+/* hover bridge (prevents flicker) */
+.menu-item::after{
+  content:"";
+  position:absolute;
+  top:100%;
+  left:0;
+  width:100%;
+  height:20px;
+}
+
+
+/* ----------MEGA MENU GRID---------- */
 .mega-grid{
-    display:grid;
-    grid-template-columns:250px 1fr 1fr;
-    gap:40px;
-    width:100%;
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+  gap:25px;
 }
 
-.mega-left{
-    border-right:1px solid #ccc;
-    padding-right:20px;
+.mega-col h4 {
+  color: var(--first-color);
+  margin-bottom: 5px;
+  font-size: 15px;
+  padding: 10px 0px;
+  position: relative;
 }
 
-.mega-left h4{
-       padding-bottom: 4px;
-    font-size: 17px;
-    font-weight: 500;
+/* small underline */
+.mega-col h4::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 4px;
+  width: 50px;       
+  height: 1px;        
+  background: var(--first-color);
+  border-radius: 2px;
+}
+.underlineheading {
+    color: var(--first-color);
+  margin-bottom: 5px;
+  font-size: 15px;
+  padding: 10px 0px;
+  position: relative;
+}
+.underlineheading:after{
+   content: "";
+  position: absolute;
+  left: 0;
+  bottom: 4px;
+  width: 50px;       
+  height: 1px;        
+  background: var(--first-color);
+  border-radius: 2px;
 }
 
-.mega-left a{
-    display:block;
-    margin:10px 0;
-    text-decoration:none;
-    color:#000;
-}
-
+/* links */
 .mega-col a{
-    display:block;
-    margin:10px 0;
-    text-decoration:none;
-    color:#444;
-    transition:0.3s;
+  display:block;
+  font-size:14px;
+  margin:5px 0;
+  color:var(--second-color);
+  text-decoration:none;
+  transition:0.2s ease;
 }
 
 .mega-col a:hover{
-    color:var(--first-color);
+  color:var(--first-color);
 }
 
 
+/* ----------RIGHT SIDE (HAMBURGER + BUTTON)---------- */
+.right-menu{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+/* hamburger */
 .menu-toggle{
-    width:28px;
-    height:20px;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  cursor:pointer;
 }
 
 .menu-toggle span{
-    height:3px;
-    width:100%;
-    background:#000;
-    border-radius:2px;
+  width:25px;
+  height:3px;
+  background:#000;
 }
 
+
+/* ---------- MOBILE SIDE MENU---------- */
 .side-menu{
-    position:fixed;
-    top:0px;
-    right:-100%;
-    width: 100%;
-    height:100%;
-    background:var(--body-color);
-    padding:40px;
-    transition:0.4s;
-    z-index:999;
-    
+  position:fixed;
+  top:0;
+  right:0;
+  width:100%;
+  height:100vh;
+  background:var(--body-color);
+  padding:30px;
+
+  /* hidden state */
+  transform:translateX(100%);
+  opacity:0;
+  visibility:hidden;
+
+  transition:0.4s ease;
+  overflow-y:auto;
+  z-index:999;
 }
 
+/* active open state */
 .side-menu.active{
-    right:0px;
+  transform:translateX(0);
+  opacity:1;
+  visibility:visible;
 }
 
+
+/* close button */
 .close-icon{
-    font-size:28px;
-    cursor:pointer;
-    text-align:right;
+  font-size:24px;
+  cursor:pointer;
+  position:sticky;
+  top:0;
+  display:flex;
+  justify-content:flex-end;
+  padding:10px;
+  z-index:1000;
 }
 
+
+/* ----------SIDE LINKS---------- */
 .side-links{
-    margin-top:30px;
-    display:flex;
-    flex-direction:column;
-    gap:25px;
+  margin-top:20px;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
 }
 
-.side-links a,
-.side-title{
-    font-size:18px;
-    padding:5px 0;
-    text-decoration:none;
-    color:#000;
+.side-links a{
+  text-decoration:none;
+  color:var(--text-color);
+  font-size:16px;
+  transition:0.2s ease;
 }
 
+.side-links a:hover{
+  color:var(--first-color);
+}
+
+
+/* ----------MOBILE DROPDOWN (ACCORDION)---------- */
 .side-item{
-    cursor:pointer;
+  cursor:pointer;
 }
 
+/* title row */
 .side-title{
-    display:flex;
-    justify-content:space-between;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
 }
 
+/* dropdown container */
 .side-dropdown{
-    max-height:0;
-    overflow:hidden;
-    transition:0.3s;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
+  max-height:0;
+  overflow:hidden;
+
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+
+  padding-left:10px;
+  padding-top:5px;
+
+  opacity:0;
+  /* transition:0.4s ease; */
+    transition: max-height 0.4s ease, opacity 0.3s ease;
 }
 
-.side-dropdown a{
-    font-size:16px;
-    color:#444;
-}
-
+/* open state */
 .side-item.active .side-dropdown{
-    max-height:300px;
+  /* max-height:500px; */
+  max-height:100%;
+
+  opacity:1;
 }
 
-@media(max-width:900px){
-    .menu-wrapper{
-        display:none;
-    }
+
+/* dropdown headings */
+.side-dropdown h4{
+  font-size:14px;
+  color:var(--first-color);
+  margin-top:10px;
+}
+
+/* dropdown links */
+.side-dropdown a{
+  font-size:14px;
+  color:var(--second-color);
+  padding:5px 0;
+}
+/*----------MOVE LINKS RIGHT ON HOVER (SMOOTH)----------*/
+a{
+  display:inline-block;   
+  transition:transform 0.3s ease;
+}
+
+/* apply only to your nav-related links */
+.mega-col a,
+.side-links a,
+.side-dropdown a{
+  display:block;
+  transition:transform 0.3s ease;
+  font-size: 14px;
+}
+
+/* hover effect */
+.mega-col a:hover,
+.side-links a:hover,
+.side-dropdown a:hover{
+  transform:translateX(6px);
+}
+/* ---------- MOVE LINKS RIGHT ON HOVER (SMOOTH)----------*/
+a{
+  display:inline-block;  
+  transition:transform 0.3s ease;
+}
+
+/* apply only to your nav-related links */
+.mega-col a,
+.side-links a,
+.side-dropdown a{
+  display:block;
+  transition:transform 0.3s ease;
+}
+
+/* hover effect */
+.mega-col a:hover,
+.side-links a:hover,
+.side-dropdown a:hover{
+  transform:translateX(6px);
+}
+
+/* ----------ONLINE COURSE SPECIAL WIDTH---------- */
+.small{
+  width:500px;
+}
+
+.small-grid{
+  grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+}
+
+
+/* ----------
+   RESPONSIVE DESIGN
+---------- */
+@media(max-width:1117px){
+  .menu-wrapper{
+    display:none;
+  }
+    .course-campus,
+  .course-online {
+    display: block;
+  }
+}
+/* SIDE DROPDOWN COLUMN FIX */
+.side-col {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.side-col h4 {
+  font-size: 14px;
+  color: #ff6b3d;
+  margin: 10px 0 5px;
+}
+
+.side-col a {
+  font-size: 14px;
+  color: #444;
+  padding: 4px 0;
+  display: block;
 }
 /* end */
 /* image slider */
@@ -712,11 +955,17 @@ input:focus {
 .carousel .card.active {
     background: var(--first-color);
     color: var(--body-color);
+    p{
+        color: var(--body-color);
+    }
 }
 
 .carousel .card:hover {
     background: var(--first-color);
     color: var(--body-color);
+    p{
+        color: var(--body-color);
+    }
 }
 
 .carousel .card:hover.card h4 svg {
@@ -748,18 +997,18 @@ input:focus {
     .wrapper .carousel {
         grid-auto-columns: calc((100% / 2) - 9px);
     }
-       .main-nav{
+       /* .main-nav{
         padding: 10px 20px;
-    }
+    } */
 }
 
 @media screen and (max-width: 768px) {
     .wrapper .carousel {
         grid-auto-columns: 100%;
     }
-    .main-nav{
+    /* .main-nav{
         padding: 10px 20px;
-    }
+    } */
 }
 
 .break {
@@ -1705,7 +1954,7 @@ footer .container {
     font-weight: 500;
 }
 
-.policy .main h4 {
+.policy {
     margin-bottom: 15px;
     color: var(--first-color);
 }

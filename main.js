@@ -1,101 +1,140 @@
 
+// document.addEventListener("DOMContentLoaded", () => {
+
+// const menuItems = document.querySelectorAll(".menu-item");
+
+// menuItems.forEach(item => {
+//     item.addEventListener("click", (e) => {
+//         e.stopPropagation();
+//         menuItems.forEach(i => {
+//             if (i !== item) i.classList.remove("active");
+//         });
+//         item.classList.toggle("active");
+//     });
+// });
+
+// document.addEventListener("click", () => {
+//     menuItems.forEach(i => i.classList.remove("active"));
+// });
+
+// const openMenu = document.getElementById("openMenu");
+// const closeMenu = document.getElementById("closeMenu");
+// const mobileMenu = document.getElementById("mobileMenu");
+
+// openMenu.onclick = () => mobileMenu.classList.add("active");
+// closeMenu.onclick = () => mobileMenu.classList.remove("active");
+
+// const sideItems = document.querySelectorAll(".side-item");
+
+// sideItems.forEach(item => {
+//     item.addEventListener("click", () => {
+//         sideItems.forEach(i => {
+//             if (i !== item) i.classList.remove("active");
+//         });
+//         item.classList.toggle("active");
+//     });
+// });
+
+// });
+
+// /*=============== SHOW DROPDOWN MENU ===============*/
+// const dropdownItems = document.querySelectorAll('.dropdown-item')
+
+// // 1. Select each dropdown item
+// dropdownItems.forEach((item) => {
+//     const dropdownButton = item.querySelector('.dropdown-button')
+
+//     // 2. Select each button click
+//     dropdownButton.addEventListener('click', () => {
+//         // 7. Select the current show-dropdown class
+//         const showDropdown = document.querySelector('.show-dropdown')
+
+//         // 5. Call the toggleItem function
+//         toggleItem(item)
+
+//         // 8. Remove the show-dropdown class from other items
+//         if (showDropdown && showDropdown !== item) {
+//             toggleItem(showDropdown)
+//         }
+//     })
+// })
+
+// // 3. Create a function to display the dropdown
+// const toggleItem = (item) => {
+//     // 3.1. Select each dropdown content
+//     const dropdownContainer = item.querySelector('.dropdown-container')
+
+//     // 6. If the same item contains the show-dropdown class, remove
+//     if (item.classList.contains('show-dropdown')) {
+//         dropdownContainer.removeAttribute('style')
+//         item.classList.remove('show-dropdown')
+//     } else {
+//         // 4. Add the maximum height to the dropdown content and add the show-dropdown class
+//         dropdownContainer.style.height = dropdownContainer.scrollHeight + 'px'
+//         item.classList.add('show-dropdown')
+//     }
+// }
+
+// /*=============== DELETE DROPDOWN STYLES ===============*/
+// const mediaQuery = matchMedia('(min-width: 1118px)'),
+//     dropdownContainer = document.querySelectorAll('.dropdown-container')
+
+// // Function to remove dropdown styles in mobile mode when browser resizes
+// const removeStyle = () => {
+//     // Validate if the media query reaches 1118px
+//     if (mediaQuery.matches) {
+//         // Remove the dropdown container height style
+//         dropdownContainer.forEach((e) => {
+//             e.removeAttribute('style')
+//         })
+
+//         // Remove the show-dropdown class from dropdown item
+//         dropdownItems.forEach((e) => {
+//             e.classList.remove('show-dropdown')
+//         })
+//     }
+// }
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
-const menuItems = document.querySelectorAll(".menu-item");
+  // ================= MOBILE MENU =================
+  const openMenu = document.getElementById("openMenu");
+  const closeMenu = document.getElementById("closeMenu");
+  const mobileMenu = document.getElementById("mobileMenu");
 
-menuItems.forEach(item => {
+  openMenu.addEventListener("click", () => {
+    mobileMenu.classList.add("active");
+  });
+
+  closeMenu.addEventListener("click", () => {
+    mobileMenu.classList.remove("active");
+  });
+
+  // ================= MOBILE DROPDOWN (ACCORDION) =================
+  const sideItems = document.querySelectorAll(".side-item");
+
+  sideItems.forEach(item => {
     item.addEventListener("click", (e) => {
-        e.stopPropagation();
-        menuItems.forEach(i => {
-            if (i !== item) i.classList.remove("active");
-        });
-        item.classList.toggle("active");
-    });
-});
 
-document.addEventListener("click", () => {
-    menuItems.forEach(i => i.classList.remove("active"));
-});
+      // prevent closing when clicking links inside dropdown
+      if (e.target.tagName === "A") return;
 
-const openMenu = document.getElementById("openMenu");
-const closeMenu = document.getElementById("closeMenu");
-const mobileMenu = document.getElementById("mobileMenu");
-
-openMenu.onclick = () => mobileMenu.classList.add("active");
-closeMenu.onclick = () => mobileMenu.classList.remove("active");
-
-const sideItems = document.querySelectorAll(".side-item");
-
-sideItems.forEach(item => {
-    item.addEventListener("click", () => {
-        sideItems.forEach(i => {
-            if (i !== item) i.classList.remove("active");
-        });
-        item.classList.toggle("active");
-    });
-});
-
-});
-
-/*=============== SHOW DROPDOWN MENU ===============*/
-const dropdownItems = document.querySelectorAll('.dropdown-item')
-
-// 1. Select each dropdown item
-dropdownItems.forEach((item) => {
-    const dropdownButton = item.querySelector('.dropdown-button')
-
-    // 2. Select each button click
-    dropdownButton.addEventListener('click', () => {
-        // 7. Select the current show-dropdown class
-        const showDropdown = document.querySelector('.show-dropdown')
-
-        // 5. Call the toggleItem function
-        toggleItem(item)
-
-        // 8. Remove the show-dropdown class from other items
-        if (showDropdown && showDropdown !== item) {
-            toggleItem(showDropdown)
+      // close other dropdowns
+      sideItems.forEach(other => {
+        if (other !== item) {
+          other.classList.remove("active");
         }
-    })
-})
+      });
 
-// 3. Create a function to display the dropdown
-const toggleItem = (item) => {
-    // 3.1. Select each dropdown content
-    const dropdownContainer = item.querySelector('.dropdown-container')
+      // toggle current dropdown
+      item.classList.toggle("active");
+    });
+  });
 
-    // 6. If the same item contains the show-dropdown class, remove
-    if (item.classList.contains('show-dropdown')) {
-        dropdownContainer.removeAttribute('style')
-        item.classList.remove('show-dropdown')
-    } else {
-        // 4. Add the maximum height to the dropdown content and add the show-dropdown class
-        dropdownContainer.style.height = dropdownContainer.scrollHeight + 'px'
-        item.classList.add('show-dropdown')
-    }
-}
-
-/*=============== DELETE DROPDOWN STYLES ===============*/
-const mediaQuery = matchMedia('(min-width: 1118px)'),
-    dropdownContainer = document.querySelectorAll('.dropdown-container')
-
-// Function to remove dropdown styles in mobile mode when browser resizes
-const removeStyle = () => {
-    // Validate if the media query reaches 1118px
-    if (mediaQuery.matches) {
-        // Remove the dropdown container height style
-        dropdownContainer.forEach((e) => {
-            e.removeAttribute('style')
-        })
-
-        // Remove the show-dropdown class from dropdown item
-        dropdownItems.forEach((e) => {
-            e.classList.remove('show-dropdown')
-        })
-    }
-}
-
-addEventListener('resize', removeStyle)
+});
+{/* end */}
+// addEventListener('resize', removeStyle)
 
 var slides = document.querySelectorAll('.slide');
 var btns = document.querySelectorAll('.btn');
