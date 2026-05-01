@@ -1,353 +1,413 @@
-let allCourses = document.querySelectorAll(".dropdown-content li a")
-let allCoursesArray1 = []
-let selectDom = document.querySelector(".demo-courses")
-// let xbtn = document.querySelector(".x");
-let form = document.querySelector(".blackSec");
-let verify_war = document.querySelector(".verify_war")
-let otpBox = document.querySelector(".background");
-let otpbtn = document.querySelector(".otp-btn");
-let otpbutton = document.querySelector(".otp-btn-verify");
-let inputs = document.querySelectorAll(".otpNumber input");
-let userInputOtp = 0;
-let errorMsgBody = document.querySelector(".error-msg-span");
-let slot = "Morning"
-let otpPara = document.querySelector(".otpPara")
-
-
-function nothing(e) {
-  e.preventdefault
-}
-
-function shiftSlot(e) {
-  slot = e
-  if (slot === "Morning") {
-    document.querySelector(".book-demo-slot-btn .btn1").classList.add("active-btn")
-    document.querySelector(".book-demo-slot-btn .btn2").classList.remove("active-btn")
-  } else {
-    document.querySelector(".book-demo-slot-btn .btn1").classList.remove("active-btn")
-    document.querySelector(".book-demo-slot-btn .btn2").classList.add("active-btn")
-
-  }
-}
-
-
-
-function variableassign() {
-
-}
-
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAyM4tvCz7oMagXxz_nOi8spWIsmkhbpb8",
-  authDomain: "otp-netcoder-website-demo.firebaseapp.com",
-  projectId: "otp-netcoder-website-demo",
-  storageBucket: "otp-netcoder-website-demo.appspot.com",
-  messagingSenderId: "635675102143",
-  appId: "1:635675102143:web:cbe478339b167bf3c8ef0a",
-  measurementId: "G-DHH6BG4TD1"
-};
-firebase.initializeApp(firebaseConfig);
-
-
-
-// xbtn.addEventListener("click", () => {
-//     form.style.display = "none";
-//   });
-
-
-
-
 
 function openBox() {
-
-  document.querySelector(".book-demo").style.display = "block"
+  document.querySelector(".book-demo").style.display = "block";
 }
-
-function fetchCourse() {
-  allCoursesArray1.push(Array.from(allCourses).map((e) => e.innerText))
-  allCoursesArray1 = allCoursesArray1[0]
-  appendCourse()
-}
-
-fetchCourse()
-
-
-function appendCourse() {
-  allCoursesArray1.forEach((e) => {
-    let newEle = document.createElement("option")
-    newEle.value = e
-    newEle.innerText = e
-    selectDom.appendChild(newEle)
-  })
-}
-
-inputs.forEach((input, index1) => {
-  input.addEventListener("keyup", (e) => {
-    const currentInput = input,
-      nextInput = input.nextElementSibling,
-      prevInput = input.previousElementSibling;
-    if (currentInput.value.length > 1) {
-      currentInput.value = "";
-      return;
-    }
-    if (nextInput && nextInput.hasAttribute("disabled") && currentInput.value !== "") {
-      nextInput.removeAttribute("disabled");
-      nextInput.focus();
-    }
-
-    if (e.key === "Backspace") {
-      inputs.forEach((input, index2) => {
-        if (index1 <= index2 && prevInput) {
-          input.setAttribute("disabled", true);
-          input.value = "";
-          prevInput.focus();
-        }
-      });
-    }
-
-    if (!inputs[5].disabled && inputs[5].value !== "") {
-      otpbutton.classList.add("active");
-      return;
-    }
-    otpbutton.classList.remove("active");
-  });
-});
-
-// window.addEventListener("load", () => inputs[0].focus());
-
-
-function shiftbox() {
-  let name = document.querySelector(".book-demo #name").value;
-  let mail = document.querySelector(".book-demo #email").value;
-  let number = document.querySelector(".book-demo #number").value;
-
-  let course = document.querySelector(".book-demo #course").value;
-  let address = document.querySelector(".book-demo #address").value;
-  let date = document.querySelector(".book-demo #date").value;
-
-  emailjs.send("service_fall03r", "template_zm1kfng", {
-    name,
-    number,
-    mail,
-    course,
-    address,
-    date,
-    slot
-  });
-  document.querySelector(".background").innerHTML = ""
-  document.querySelector(".background").innerHTML = "<div class='newAppedHTML'><p>Form Submitted.</p></div>"
-}
-
-function codeverify() {
-
-  coderesult
-    .confirm(userInputOtp)
-    .then(function () {
-      setTimeout(() => {
-        otpBox.style.display = "none";
-        shiftbox()
-      }, 2000);
-      verify_war.innerHTML = ""
-      errorMsgBody.innerHTML = "Verified! And Details Submitted";
-    })
-    .catch(function (err) {
-      errorMsgBody.innerHTML = "Incorrect OTP";
-      otpPara.innerHTML = "Please Re-Verify Captcha."
-    });
-}
-otpbutton.addEventListener("click", (e) => {
-  e.preventDefault();
-  userInputOtp = Array.from(inputs).map((e) => parseInt(e.value.toString()[0])).join("");
-  if (userInputOtp.length !== 6) {
-    errorMsgBody.innerHTML = "Enter 6-digit OTP";
-
-  } else {
-    errorMsgBody.innerHTML = "Verifying...";
-    codeverify();
-  }
-});
-function verifyOtp() {
-  verify_war.innerHTML = ""
-  document.querySelector(".book-demo").style.display = "none"
-  otpBox.style.display = "block"
-  window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
-    "recaptcha-container"
-  );
-  recaptchaVerifier.render();
-  phoneAuth()
-
-}
-
-function phoneAuth() {
-  var number = document.querySelector(".book-demo #number").value;
-  number = '+91' + number;
-  firebase
-    .auth()
-    .signInWithPhoneNumber(number, window.recaptchaVerifier)
-    .then(function (confirmationResult) {
-      window.confirmationResult = confirmationResult;
-      coderesult = confirmationResult;
-
-    })
-    .catch(function (error) {
-      otpBox.style.display = "none";
-      console.log(error)
-      alert(error.message);
-    });
-}
-
-
-function verify() {
-  let name = document.querySelector(".book-demo #name").value;
-  let email = document.querySelector(".book-demo #email").value;
-  let number = document.querySelector(".book-demo #number").value;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneRegex = /^\d{10}$/;
-  const nameRegex = /^[a-zA-Z\s\-']+$/;
-
-  const isValid = emailRegex.test(email) && phoneRegex.test(number.replace(/\D/g, '')) && nameRegex.test(name);
-
-  isValid ? verifyOtp() : verify_war.innerHTML = "Enter Valid Input";
-
-
-}
-
-
-// ---------------------------------------------------------------
-// brochure-form
-// getting reference 
-let submitBtn = document.querySelector("form .color-btn");
-// end 
-// function to validate from 
-function valiDateForm() {
-  let name = document.querySelector(".brochure-form #name").value
-  let number = document.querySelector(".brochure-form #number").value
-  let email = document.querySelector(".brochure-form #email").value
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneRegex = /^\d{10}$/;
-  const nameRegex = /^[a-zA-Z\s\-']+$/;
-  const isValid = emailRegex.test(email) && phoneRegex.test(number.replace(/\D/g, '')) && nameRegex.test(name);
-
-  if (isValid) {
-    sendFormData()
-  } else {
-    return false
-  }
-
-
-
-}
-// end 
-
-// function to send from data of brochure form
- function sendFormData() {
-    const params = {
-      name: document.querySelector("#name").value,
-      email: document.querySelector("#email").value,
-      number: document.querySelector("#number").value
-    };
-
-    emailjs.send("service_o2c89my", "template_8k6ptrf", params)
-      .then(function (res) {
-Swal.fire({
-  title: "Great Job!",
-  text: "Submission Successful! Your form has been received, and the brochure will be sent to your email soon.",
-  icon: "success",
-  confirmButtonColor: "#ff5532",
-  customClass: {
-    popup: 'custom-swal-popup',
-    icon: 'custom-swal-icon'
-  }
-});
-
-      }, function (error) {
-        Swal.fire({
-          title: "Something went wrong",
-          text: "Submission Unsuccessful. Please try again later!",
-          icon: "error"
-        });
-        console.error("EmailJS error:", error);
-      });
-  }
-
-// end 
-
-submitBtn.addEventListener("click", (event) => {
-  event.preventDefault()
-  valiDateForm()
-})
-
-
-
-
-
-// end 
-
-
-
-// close button 
-
 function closeForm() {
-  document.querySelector('.book-demo').style.display = 'none';
-  document.querySelector('.close-btn').classList.add('clicked');
-  setTimeout(function () {
-    document.querySelector('.close-btn').classList.remove('clicked');
-  }, 300);
+  document.querySelector(".book-demo").style.display = "none";
 }
+document.querySelector(".background").style.display = "none";
 
+document.addEventListener("DOMContentLoaded", function () {
 
-  // JavaScript to close the form
-  document.getElementById("closeOtpBtn").addEventListener("click", function () {
-    document.getElementById("otpModal").style.display = "none";
+  /* ================== GLOBAL ================== */
+  const selectDom = document.querySelector(".demo-courses");
+  const verify_war = document.querySelector(".verify_war");
+  const otpBox = document.querySelector(".background");
+  
+  /* ================== DYNAMICALLY INJECT SUCCESS MODAL IF MISSING ================== */
+  if (!document.getElementById("successModal") && document.querySelector(".book-demo")) {
+      const modalHTML = `
+<style>
+@keyframes successFadeIn { from{opacity:0} to{opacity:1} }
+@keyframes successCardPop { 0%{opacity:0;transform:scale(.7) translateY(40px)} 60%{transform:scale(1.03) translateY(-5px)} 100%{opacity:1;transform:scale(1) translateY(0)} }
+@keyframes checkBounce { 0%{transform:scale(0);opacity:0} 50%{transform:scale(1.3)} 70%{transform:scale(.9)} 100%{transform:scale(1);opacity:1} }
+@keyframes checkRing { 0%{box-shadow:0 0 0 0 rgba(76,175,80,.5)} 70%{box-shadow:0 0 0 20px rgba(76,175,80,0)} 100%{box-shadow:0 0 0 0 rgba(76,175,80,0)} }
+@keyframes slideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+@keyframes confettiFall { 0%{transform:translateY(-10px) rotate(0);opacity:1} 100%{transform:translateY(350px) rotate(720deg);opacity:0} }
+.success-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);z-index:99999;align-items:center;justify-content:center;animation:successFadeIn .3s ease}
+.success-card{background:#fff;border-radius:20px;padding:40px 35px 35px;max-width:440px;width:90%;text-align:center;position:relative;overflow:hidden;animation:successCardPop .6s cubic-bezier(.34,1.56,.64,1) forwards;box-shadow:0 25px 80px rgba(0,0,0,.25)}
+.success-card .accent-bar{position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#FF5532,#ff7a5c,#4CAF50,#66BB6A);background-size:200% 100%;animation:shimmer 3s linear infinite}
+.success-card .check-circle{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#4CAF50,#66BB6A);margin:0 auto 18px;display:flex;align-items:center;justify-content:center;animation:checkBounce .7s .3s cubic-bezier(.34,1.56,.64,1) both,checkRing 1.5s .8s ease both}
+.success-card .check-circle span{font-size:44px;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+.success-card h3{font-size:24px;font-weight:700;color:#1a1a1a;margin:0 0 6px;animation:slideUp .5s .5s ease both}
+.success-card .user-greeting{font-size:15px;color:#666;line-height:1.7;margin:8px 0 0;animation:slideUp .5s .6s ease both}
+.success-card .user-greeting strong{color:#FF5532;font-size:17px}
+.success-card .info-card{background:linear-gradient(135deg,#f8f9fa,#fff);border-radius:14px;padding:18px 20px;margin:22px 0;border:1px solid #eee;text-align:left;animation:slideUp .5s .7s ease both}
+.success-card .info-row{display:flex;align-items:center;gap:10px;padding:6px 0}
+.success-card .info-row:not(:last-child){border-bottom:1px solid #f0f0f0;padding-bottom:10px;margin-bottom:4px}
+.success-card .info-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.success-card .info-label{font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.5px}
+.success-card .info-value{font-size:14px;font-weight:600;color:#333}
+.success-card .team-note{font-size:12px;color:#bbb;margin-bottom:20px;animation:slideUp .5s .8s ease both}
+.success-card .ok-btn{display:inline-block;padding:13px 55px;border-radius:10px;font-size:15px;font-weight:700;background:linear-gradient(135deg,#FF5532,#ff7a5c);border:none;color:#fff;cursor:pointer;box-shadow:0 6px 20px rgba(255,85,50,.35);transition:transform .2s,box-shadow .2s;animation:slideUp .5s .9s ease both;letter-spacing:.5px}
+.success-card .ok-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,85,50,.45)}
+.success-card .close-x{position:absolute;top:14px;right:18px;font-size:22px;font-weight:bold;cursor:pointer;color:#ccc;transition:color .2s;z-index:2}
+.success-card .close-x:hover{color:#FF5532}
+.confetti{position:absolute;width:8px;height:8px;top:-10px;border-radius:2px;animation:confettiFall 2.5s ease-in forwards}
+</style>
+
+<div class="success-overlay" id="successModal">
+    <div class="success-card">
+        <div class="accent-bar"></div>
+        <span class="close-x" id="closeSuccessBtn">&times;</span>
+        <div id="confettiContainer"></div>
+        <div class="check-circle"><span>&#10004;</span></div>
+        <h3>Booking Confirmed!</h3>
+        <p class="user-greeting">Thank you <strong id="successUserName"></strong>!<br>Your information was successfully received by <strong>Netcoder Technology</strong>.</p>
+        <div class="info-card">
+            <div class="info-row">
+                <div class="info-icon" style="background:#fff3e0;">&#9200;</div>
+                <div><div class="info-label">Slot</div><div class="info-value" id="successSlotText"></div></div>
+            </div>
+            <div class="info-row">
+                <div class="info-icon" style="background:#e8f5e9;">&#128197;</div>
+                <div><div class="info-label">Date</div><div class="info-value" id="successDateText"></div></div>
+            </div>
+            <div class="info-row">
+                <div class="info-icon" style="background:#e3f2fd;">&#128222;</div>
+                <div><div class="info-label">What's Next</div><div class="info-value" style="font-weight:500;color:#666;">Our team will call you shortly</div></div>
+            </div>
+        </div>
+        <p class="team-note">Please keep your phone nearby.</p>
+        <button class="ok-btn" id="successOkBtn">Awesome!</button>
+    </div>
+</div>`;
+      document.body.insertAdjacentHTML('beforeend', modalHTML);
+  }
+
+  const otpbutton = document.querySelector(".otp-btn-verify");
+  const inputs = document.querySelectorAll(".otpNumber input");
+  const errorMsgBody = document.querySelector(".error-msg-span");
+  const otpPara = document.querySelector(".otpPara");
+  const closeOtpBtn = document.getElementById("closeOtpBtn");
+
+  if(closeOtpBtn) {
+    closeOtpBtn.addEventListener("click", () => {
+      otpBox.style.display = "none";
+    });
+  }
+
+  let coderesult = null;
+  let userInputOtp = "";
+  let slot = "Morning";
+
+  window.shiftSlot = function(selectedSlot) {
+    const morningBtn = document.getElementById("morningBtn");
+    const eveningBtn = document.getElementById("eveningBtn");
+
+    // Block Morning selection if the button is disabled
+    if (selectedSlot === "Morning" && morningBtn && morningBtn.disabled) {
+      return; // Do nothing
+    }
+
+    slot = selectedSlot;
+    if(morningBtn && eveningBtn) {
+      if(selectedSlot === "Morning") {
+        morningBtn.style.background = "#FF5532";
+        morningBtn.style.color = "white";
+        eveningBtn.style.background = "transparent";
+        eveningBtn.style.color = "black";
+        eveningBtn.style.border = "1px solid #ddd";
+      } else {
+        eveningBtn.style.background = "#FF5532";
+        eveningBtn.style.color = "white";
+        morningBtn.style.background = "transparent";
+        morningBtn.style.color = "black";
+        morningBtn.style.border = "1px solid #ddd";
+      }
+    }
+  };
+
+  // Initialize styling on load
+  shiftSlot("Morning");
+
+  /* ================== DATE VALIDATION (MORNING SLOT) ================== */
+  const dateInput = document.querySelector(".book-demo #date");
+  const slotWarning = document.getElementById("slotWarning");
+  
+  if (dateInput) {
+    const todayStr = new Date().toISOString().split("T")[0];
+    // Set minimum date and default to today
+    dateInput.setAttribute("min", todayStr);
+    dateInput.value = todayStr;
+
+    function validateSlotTime() {
+      const selectedDate = dateInput.value || todayStr;
+      const currentHour = new Date().getHours();
+      const morningBtn = document.getElementById("morningBtn");
+
+      if (selectedDate === todayStr && currentHour >= 12) {
+        // Disable Morning slot
+        if (morningBtn) {
+          morningBtn.disabled = true;
+          morningBtn.style.opacity = "0.4";
+          morningBtn.style.cursor = "not-allowed";
+          morningBtn.style.background = "#ccc";
+          morningBtn.style.color = "#999";
+          morningBtn.style.border = "1px solid #ccc";
+        }
+        if (slotWarning) slotWarning.style.display = "block";
+        
+        // Auto-switch to Evening
+        slot = "Evening";
+        shiftSlot("Evening");
+      } else {
+        // Enable Morning slot
+        if (morningBtn) {
+          morningBtn.disabled = false;
+          morningBtn.style.opacity = "1";
+          morningBtn.style.cursor = "pointer";
+        }
+        if (slotWarning) slotWarning.style.display = "none";
+      }
+    }
+
+    dateInput.addEventListener("change", validateSlotTime);
+    // Run immediately on load
+    validateSlotTime();
+  }
+
+  /* ================== FETCH COURSES ================== */
+  const allCourses = document.querySelectorAll(".mega-box .mega-col a");
+
+  if (selectDom && allCourses.length) {
+    const courses = Array.from(allCourses).map(c => c.textContent.trim());
+
+    selectDom.innerHTML = '<option value="">Select Course</option>';
+
+    courses.forEach(course => {
+      const option = document.createElement("option");
+      option.value = course;
+      option.textContent = course;
+      selectDom.appendChild(option);
+    });
+  }
+
+  /* ================== OTP INPUT HANDLING ================== */
+  inputs.forEach((input, index) => {
+    input.addEventListener("keyup", (e) => {
+      const next = input.nextElementSibling;
+      const prev = input.previousElementSibling;
+
+      if (input.value.length > 1) input.value = "";
+
+      if (next && input.value !== "") {
+        next.removeAttribute("disabled");
+        next.focus();
+      }
+
+      if (e.key === "Backspace" && prev) {
+        input.value = "";
+        prev.focus();
+      }
+
+      // Enable verify button
+      if ([...inputs].every(i => i.value !== "")) {
+        otpbutton.classList.add("active");
+      } else {
+        otpbutton.classList.remove("active");
+      }
+    });
   });
 
-  // Set min date to today
-     window.onload = function () {
-        const dateInput = document.getElementById("date");
+  /* ================== VALIDATION ================== */
+  function validateForm() {
+    const name = document.querySelector(".book-demo #name") ? document.querySelector(".book-demo #name").value.trim() : "";
+    const email = document.querySelector(".book-demo #email") ? document.querySelector(".book-demo #email").value.trim() : "";
+    const number = document.querySelector(".book-demo #number") ? document.querySelector(".book-demo #number").value.trim() : "";
 
-        const today = new Date();
-        const yyyy = today.getFullYear();
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const dd = String(today.getDate()).padStart(2, '0');
-        const minDate = `${yyyy}-${mm}-${dd}`;
-        dateInput.setAttribute("min", minDate);
-        dateInput.value = minDate;
-    };
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[6-9]\d{9}$/;
+    const nameRegex = /^[a-zA-Z\s]{3,}$/;
 
-    function shiftSlot(slot) {
-        const warning = document.querySelector(".verify_war");
-        const dateInput = document.getElementById("date");
-        const morningBtn = document.getElementById("morningBtn");
-        const eveningBtn = document.getElementById("eveningBtn");
-
-        const selectedDate = new Date(dateInput.value);
-        const today = new Date();
-        const currentHour = today.getHours();
-
-        // Clear warning and reset button colors
-        warning.textContent = "";
-        morningBtn.classList.remove("selected-slot");
-        eveningBtn.classList.remove("selected-slot");
-
-        // Format today's date to compare
-        const todayStr = today.toISOString().split('T')[0];
-
-        if (
-            slot === "Morning" &&
-            dateInput.value === todayStr &&
-            currentHour >= 12
-        ) {
-            warning.textContent = "❌ You cannot book Morning slot after 12:00 PM for today's date.";
-            return;
-        }
-
-        // Highlight selected button
-        if (slot === "Morning") {
-            morningBtn.classList.add("selected-slot");
-        } else if (slot === "Evening") {
-            eveningBtn.classList.add("selected-slot");
-        }
-
-        warning.textContent = `✔ Slot selected: ${slot}`;
+    if (!nameRegex.test(name)) {
+      verify_war.innerHTML = "Enter valid name";
+      return false;
     }
+
+    if (!emailRegex.test(email)) {
+      verify_war.innerHTML = "Enter valid email";
+      return false;
+    }
+
+    if (!phoneRegex.test(number)) {
+      verify_war.innerHTML = "Enter valid mobile number";
+      return false;
+    }
+
+    return true;
+  }
+
+  window.verify = function() {
+    // Prevent form submission if event exists
+    if (window.event) {
+        window.event.preventDefault();
+    }
+    
+    if (validateForm()) {
+        verifyOtp();
+    }
+  };
+
+  /* ================== FIREBASE INIT ================== */
+  const firebaseConfig = {
+    apiKey: "AIzaSyBGHd5l5nLwqsK3tqZwZrfFkrsvQyxW6rk",
+    authDomain: "demoform-netcoder-website.firebaseapp.com",
+    projectId: "demoform-netcoder-website",
+    storageBucket: "demoform-netcoder-website.firebasestorage.app",
+    messagingSenderId: "755574278305",
+    appId: "1:755574278305:web:d44565fdf35cc62202c8e0",
+    measurementId: "G-BWFCRTJWQG"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+  /* ================== OTP SEND ================== */
+  function sendOTP() {
+    const numberEl = document.querySelector(".book-demo #number");
+    const number = "+91" + (numberEl ? numberEl.value.trim() : "");
+
+    firebase.auth().signInWithPhoneNumber(number, window.recaptchaVerifier)
+      .then(res => {
+        coderesult = res;
+        console.log("OTP SENT");
+      })
+      .catch(err => {
+        console.error(err);
+        alert(err.message);
+      });
+  }
+
+  /* ================== VERIFY BUTTON ================== */
+ function verifyOtp() {
+  verify_war.innerHTML = "";
+
+  document.querySelector(".book-demo").style.display = "none";
+  otpBox.style.display = "block";
+
+  // Create ONLY ONCE
+  if (!window.recaptchaVerifier) {
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+      "recaptcha-container",
+      {
+        size: "invisible"
+      }
+    );
+
+    recaptchaVerifier.render().then((widgetId) => {
+      window.recaptchaWidgetId = widgetId;
+    });
+  }
+
+  sendOTP();
+}
+
+  /* ================== OTP VERIFY ================== */
+  otpbutton.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    userInputOtp = [...inputs].map(i => i.value).join("");
+
+    if (userInputOtp.length !== 6) {
+      errorMsgBody.innerHTML = "Enter 6-digit OTP";
+      return;
+    }
+
+    coderesult.confirm(userInputOtp)
+      .then(() => {
+        errorMsgBody.innerHTML = "Verified Successfully";
+
+        setTimeout(() => {
+          otpBox.style.display = "none";
+          submitForm();
+        }, 1500);
+      })
+      .catch(() => {
+        errorMsgBody.innerHTML = "Invalid OTP";
+        otpPara.innerHTML = "Try again";
+      });
+  });
+
+  /* ================== FINAL SUBMIT ================== */
+  function submitForm() {
+    const name = document.querySelector(".book-demo #name") ? document.querySelector(".book-demo #name").value : "";
+    const email = document.querySelector(".book-demo #email") ? document.querySelector(".book-demo #email").value : "";
+    const phone = document.querySelector(".book-demo #number") ? document.querySelector(".book-demo #number").value : "";
+    const course = document.querySelector(".book-demo .demo-courses") ? document.querySelector(".book-demo .demo-courses").value : "";
+    const address = document.querySelector(".book-demo #address") ? document.querySelector(".book-demo #address").value : "";
+    const date = new Date().toLocaleDateString();
+
+    emailjs.send("service_fall03r", "template_lvuwe08", {
+      name: name,
+      email: email,
+      phone: phone,
+      address: address,
+      course: course,
+      date: date,
+      slot: slot
+    }).then(function(response) {
+       console.log('Email sent successfully!', response.status, response.text);
+    }, function(error) {
+       console.error('Email failed to send...', error);
+    });
+
+    const successModal = document.getElementById("successModal");
+    const successSlotText = document.getElementById("successSlotText");
+    const successDateText = document.getElementById("successDateText");
+    const successUserName = document.getElementById("successUserName");
+    const closeSuccessBtn = document.getElementById("closeSuccessBtn");
+    const successOkBtn = document.getElementById("successOkBtn");
+    const confettiContainer = document.getElementById("confettiContainer");
+
+    if (successUserName) {
+        successUserName.innerText = name || "Student";
+    }
+
+    if (slot === "Morning") {
+        successSlotText.innerText = "Morning Slot (Before 12 PM)";
+    } else {
+        successSlotText.innerText = "Evening Slot";
+    }
+
+    // Show the selected date
+    const selectedDateVal = document.querySelector(".book-demo #date") ? document.querySelector(".book-demo #date").value : "";
+    if (successDateText) {
+        const d = selectedDateVal ? new Date(selectedDateVal) : new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        successDateText.innerText = d.toLocaleDateString('en-IN', options);
+    }
+
+    // Generate confetti
+    if (confettiContainer) {
+        confettiContainer.innerHTML = "";
+        const colors = ["#FF5532", "#4CAF50", "#FFD700", "#2196F3", "#FF9800", "#9C27B0", "#00BCD4"];
+        for (let i = 0; i < 30; i++) {
+            const piece = document.createElement("div");
+            piece.className = "confetti";
+            piece.style.left = Math.random() * 100 + "%";
+            piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+            piece.style.animationDelay = (Math.random() * 1.5) + "s";
+            piece.style.animationDuration = (2 + Math.random() * 2) + "s";
+            piece.style.width = (5 + Math.random() * 6) + "px";
+            piece.style.height = (5 + Math.random() * 6) + "px";
+            confettiContainer.appendChild(piece);
+        }
+    }
+
+    if(successModal) {
+        successModal.style.display = "flex";
+    }
+
+    function closeSuccessModal() {
+        if(successModal) {
+            successModal.style.display = "none";
+            window.location.reload();
+        }
+    }
+
+    if(closeSuccessBtn) closeSuccessBtn.onclick = closeSuccessModal;
+    if(successOkBtn) successOkBtn.onclick = closeSuccessModal;
+  }
+
+});
